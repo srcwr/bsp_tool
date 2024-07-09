@@ -120,7 +120,7 @@ class Entities(list):
                     raise RuntimeError("Entity values must be")
             entity.append("}")
             entities.append("\n".join(entity))
-        return b"\n".join(map(lambda e: e.encode("ascii"), entities)) + b"\n\x00"
+        return b"\n".join(map(lambda e: e.encode(errors="ignore"), entities)) + b"\n\x00"
 
 
 class PakFile(zipfile.ZipFile):

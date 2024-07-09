@@ -6,6 +6,7 @@ import lzma
 import struct
 from typing import Any, Dict, Union
 import warnings
+import os
 
 
 def _remap_negative_index(index: int, length: int) -> int:
@@ -391,6 +392,9 @@ class GameLump:
                     elif compressed:  # but otherwise empty
                         # NOTE: length might be 12, for an empty source.GameLump_SPRP
                         warnings.warn(UserWarning(f"compressed empty {child_name} game lump"))
+                        with open(os.environ["EDITF"], "a") as f:
+                            maphash = os.environ["MAPHASH"]
+                            f.write(f"{maphash},warning (empty game lump?)\n")
                         child_lump = None
                 except Exception as exc:
                     self.loading_errors[child_name] = exc
